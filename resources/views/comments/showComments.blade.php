@@ -9,8 +9,8 @@
 <div class="row justify-content-center">
     <div class="col-md-8" id="comments">
         @include('_partials.errors')
-        @include('_partials.messages')
-        @include('_partials.warning')
+      {{--@include('_partials.messages')
+        @include('_partials.warning') --}}
         <form action="{{route('comments.store')}}" method="POST" >
             @csrf
             <div class="form-group">
@@ -27,7 +27,7 @@
 
     <div class="col-md-8">
         @foreach($comments as $comment)
-            <div class="card mb-3">
+            <div class="card mb-3" id="comment-{{$comment->id}}">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="name">
                         <img src="{{asset('images/avatars')}}/{{$comment->user->avatar}}" width="30" alt="">

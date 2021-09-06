@@ -3,7 +3,8 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-8">
-            @include('_partials.messages')
+          {{-- @include('_partials.messages') --}}
+
             <div class="card">
                 @if( $recipe->image )
                     <img src="{{asset('images/recipes')}}/{{$recipe->image}}" class="card-img-top" alt="{{$recipe->title}}">

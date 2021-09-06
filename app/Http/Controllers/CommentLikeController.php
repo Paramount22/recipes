@@ -23,7 +23,7 @@ class CommentLikeController extends Controller
     public function store(Comment $comment, Request $request)
     {
         if (  $comment->likedBy($request->user()) ) {
-            return redirect('/recipes/' . $comment->recipe->slug . '#comments')
+            return redirect('/recipes/' . $comment->recipe->slug . '#comment-'.$comment->id)
                 ->with('warning', 'You have already done this action');
         }
 
@@ -31,7 +31,7 @@ class CommentLikeController extends Controller
             'user_id' => $request->user()->id
         ]);
 
-        return redirect('/recipes/' . $comment->recipe->slug . '#comments')
+        return redirect('/recipes/' . $comment->recipe->slug . '#comment-'.$comment->id)
             ->with('success', 'Comment liked');
     }
 }

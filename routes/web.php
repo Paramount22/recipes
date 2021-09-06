@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes(['verify' => true]);
-
+// Search
 Route::get('queries', 'QueryController@search')->name('search'); //search
 
 Route::get('/', 'RecipeController@index');
 
 /*Users*/
-Route::get('users/comments/{user}', 'UserController@showUserComments')->name('show.user.comments');
+Route::get('users/{user}/comments', 'UserController@showUserComments')->name('show.user.comments');
 Route::get('users/{user}/change-password', 'UserController@change_password')->name('change.password');
 Route::post('users/{user}/update-password', 'UserController@update_password')->name('update.password');
 Route::resource('users', 'UserController');

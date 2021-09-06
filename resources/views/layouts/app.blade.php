@@ -9,8 +9,8 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- Scripts
+    <script src="{{ asset('js/app.js') }}" defer></script> -->
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -23,12 +23,16 @@
 </head>
 <body>
     <div id="app">
+
         @include('layouts.navigation')
 
         <main class="py-4 container">
+            <flash-success text="{{session('success')}}"></flash-success>
+            <flash-warning text="{{session('warning')}}"></flash-warning>
             @yield('content')
         </main>
     </div>
+
 
     <script src="https://cdn.tiny.cloud/1/bxijhemwxy1rzpsjqk4ippn0csux1b2v7up5dzz6tkbfxyb3/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
@@ -39,5 +43,7 @@
             selector: '#comments-form',
         });*/
     </script>
+    <script src="{{mix('js/app.js')}}"></script>
 </body>
 </html>
+

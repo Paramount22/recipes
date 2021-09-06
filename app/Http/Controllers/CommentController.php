@@ -45,7 +45,7 @@ class CommentController extends Controller
     {
         $comment = auth()->user()->comments()->create($request->all());
 
-        return redirect('/recipes/' . $comment->recipe->slug . '#comments')
+        return redirect('/recipes/' . $comment->recipe->slug . '#comment-'.$comment->id)
             ->with('success', 'Comment added');
     }
 
