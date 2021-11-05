@@ -25,11 +25,11 @@
             <div class="container">
                 <i class="fas fa-calendar-alt mr-1"></i> @include('_partials.date')
             </div>
-
         </div>
 
         @include('layouts.navigation')
         <main class="py-4 container">
+            @include('_partials.authMessage')
             <flash-success text="{{session('success')}}"></flash-success>
             <flash-warning text="{{session('warning')}}"></flash-warning>
             @yield('content')

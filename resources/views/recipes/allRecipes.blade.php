@@ -3,6 +3,7 @@
 @section('content')
     @include('layouts.searchBar')
     <section class="recipes-list">
+        <h3 class="text-dark text-center">All recipes</h3>
         <div class="row mt-3">
             @forelse($recipes->skip(5) as $recipe)
                 <div class="col-lg-4 col-md-6 col-sm-6">
