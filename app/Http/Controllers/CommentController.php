@@ -13,7 +13,7 @@ class CommentController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']);
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -43,7 +43,7 @@ class CommentController extends Controller
      */
     public function store(CommentStoreRequest $request)
     {
-        $comment = auth()->user()->comments()->create($request->all());
+        $comment = auth()->user()->comments()->create($request->validated());
 
         return redirect('/recipes/' . $comment->recipe->slug . '#comment-'.$comment->id)
             ->with('success', 'Comment added');

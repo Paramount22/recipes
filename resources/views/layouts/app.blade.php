@@ -9,8 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts
-    <script src="{{ asset('js/app.js') }}" defer></script> -->
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -21,18 +19,28 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="{{body_class()}}">
     <div id="app">
+        <div class="calendar">
+            <div class="container">
+                <i class="fas fa-calendar-alt mr-1"></i> @include('_partials.date')
+            </div>
+
+        </div>
 
         @include('layouts.navigation')
-
         <main class="py-4 container">
             <flash-success text="{{session('success')}}"></flash-success>
             <flash-warning text="{{session('warning')}}"></flash-warning>
             @yield('content')
         </main>
+
+        <back-to-top></back-to-top>
     </div>
 
+<footer>
+    <p>Online recipes</p>
+</footer>
 
     <script src="https://cdn.tiny.cloud/1/bxijhemwxy1rzpsjqk4ippn0csux1b2v7up5dzz6tkbfxyb3/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>

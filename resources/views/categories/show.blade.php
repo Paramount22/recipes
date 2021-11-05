@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    <header class="d-flex justify-content-between align-items-center">
-        <h2>{{$category->name}} </h2>
+    @include('layouts.searchBar')
+    <header class="d-flex justify-content-center mt-4 mb-4">
+        <h2 class="text-dark">{{$category->name}} </h2>
     </header>
 
-    @include('_partials.recipes')
+    @include('_partials.show_recipes')
     {{$recipes->links()}}
 
 

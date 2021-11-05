@@ -8,16 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class QueryController extends Controller
 {
-    protected $recipe;
 
-    /**
-     * QueryController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware(['auth', 'verified' ]);
-        $this->recipe = New Recipe;
-    }
+
 
     /**
      * @param Request $request
@@ -26,7 +18,8 @@ class QueryController extends Controller
     public function search(Request $request)
     {
         $query = $request->search;
-        $recipes = $this->recipe->searchRecipes($query);
+        $recipe = new Recipe();
+        $recipes = $recipe->searchRecipes($query);
 
         return view('search.index', compact('recipes', 'query'));
     }

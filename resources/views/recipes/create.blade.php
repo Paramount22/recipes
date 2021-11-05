@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    @include('layouts.searchBar')
     <div class="row justify-content-center">
         <div class="col-md-10">
             @include('_partials.errors')
-            <div class="card  mb-3">
+            <div class="card  mb-3 shadow-lg">
                 <div class="card-header">Create recipe</div>
                 <div class="card-body text-primary">
                     <form action="{{route('recipes.store')}}" method="POST"

@@ -9,14 +9,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * UserController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware(['auth', 'verified' ]);
-        $this->middleware(['is_admin'])->except('show');
-    }
+
 
     /**
      * Display a listing of the resource.
@@ -67,7 +60,7 @@ class CategoryController extends Controller
         $recipes = Recipe::where('category_id', $category)->paginate(6);*/
         return view('categories.show', [
             'category' => $category,
-            'recipes' => Recipe::where('category_id', $category->id)->paginate(6)
+            'recipes' => Recipe::where('category_id', $category->id)->paginate(12)
         ]);
     }
 
@@ -79,7 +72,6 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-
         return view('categories.edit', [
             'category' => $category
         ]);

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @include('layouts.searchBar')
     <div class="row justify-content-center">
         <div class="col-8">
           {{-- @include('_partials.messages') --}}
@@ -9,11 +10,11 @@
                 @if( $recipe->image )
                     <img src="{{asset('images/recipes')}}/{{$recipe->image}}" class="card-img-top" alt="{{$recipe->title}}">
                 @else
-                    <img src="{{asset('no-image')}}/food.jpg" class="card-img-top" alt="{{$recipe->title}}">
+                    <img src="{{asset('no-image')}}/food.png" class="card-img-top" alt="{{$recipe->title}}">
                 @endif
                 <div class="card-body">
                     <header class="d-flex justify-content-between align-items-center">
-                        <h5 class="card-title">{{$recipe->title}}</h5>
+                        <h3 class="card-title text-dark">{{$recipe->title}}</h3>
 
                         <div class="links">
                             @can('update', $recipe)
@@ -64,14 +65,20 @@
                             <i class="far fa-clock"></i> {{$recipe->duration}} min
                         </span>
                     </p>
+                    <h4 class="text-dark text-center mt-4">Ingredients</h4>
+                    <div class="col-md-6">
+                        <ul class="list-group list-group-flush">
+                            @foreach($recipe->ingredientsArray as $ingredient)
+                                <li class="list-group-item text-danger"> {!! $ingredient !!}</li>
+                            @endforeach
+                        </ul>
+                    </div>
 
-                    <p class="card-text">
-                        @foreach($recipe->ingredients as $ingredient)
-                            <span class="badge badge-warning"> {!! $ingredient !!}</span>
-                        @endforeach
-                    </p>
-
+                    <h4 class="text-dark text-center mt-4 mb-3">Procedure</h4>
                    <p class="card-text"> {!! $recipe->procedure !!}</p>
+
+                    <p class="enjoy-food text-warning text-center">Bon Apetite <i class="far fa-smile-wink"></i></p>
+
                 </div>
                     <div class="card-footer text-muted d-flex justify-content-between align-items-center">
                         <p>
@@ -85,7 +92,12 @@
                     </div>
             </div>
         </div>
+
     </div>
 
     @include('comments.showComments')
+    @include('recipes.randomRecipes')
+
+
+
 @endsection

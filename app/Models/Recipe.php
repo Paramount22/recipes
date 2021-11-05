@@ -23,14 +23,6 @@ class Recipe extends Model
         return 'slug';
     }
 
-    /**
-     * @param $ing
-     * @return array
-     */
-    public function format_ingredients($ing)
-    {
-        return $ing->ingredients =  $ing->ingredients ? explode(",", $ing->ingredients) : [];
-    }
 
     /** MUTATOR
      * @param $value
@@ -38,7 +30,16 @@ class Recipe extends Model
     public function setTitleAttribute($value)
     {
         $this->attributes['title'] = ucfirst($value);
-        $this->attributes['slug'] = Str::of($value)->slug('-');
+    }
+
+    /*Accessors*/
+
+    /**
+     * @return array
+     */
+    public function getIngredientsArrayAttribute()
+    {
+        return $this->ingredients =  $this->ingredients ? explode(",", $this->ingredients) : [];
     }
 
 
@@ -75,8 +76,42 @@ class Recipe extends Model
      */
     public function searchRecipes($query)
     {
-        $recipes = Recipe::where('title', 'LIKE', '%' . $query . '%')->orWhere('ingredients', 'LIKE', '%' . $query . '%')->paginate(6);
+        $recipes = Recipe::with('category', 'comments')
+            ->where('title', 'LIKE', '%' . $query . '%')
+            ->orWhere('ingredients', 'LIKE', '%' . $query . '%')
+            ->orWhere('procedure', 'LIKE', '%' . $query . '%')
+            ->paginate(12);
         return $recipes;
+    }
+
+    /**
+     * @param $query
+     *  // v controlleri zavolame iba metodu filter
+     */
+  /*  public function scopeFilter($query)
+    {
+        // search functionality
+        if(request('search')) {
+            $query->where('title', 'like', '%'.request('search').'%')
+                ->orWhere('procedure', 'like', '%'.request('search').'%')
+                ->orWhere('ingredients', 'like', '%'.request('search').'%');
+        }
+    }*/
+
+
+    // generate slug
+    protected static function boot()
+    {
+        parent::boot();
+        // registering a callback to be executed upon the creation of an recipe
+        static::creating(function($recipe) {
+            // produce a slug based on the recipe title
+            $slug = Str::of($recipe->title)->slug('-');
+            // check to see if any other slugs exist that are the same & count them
+            $count = static::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
+            // if other slugs exist that are the same, append the count to the slug
+            $recipe->slug = $count ? "{$slug}-{$count}" : $slug;
+        });
     }
 
 }

@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']);
+        $this->middleware('auth');
     }
 
     /**
@@ -149,7 +149,7 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function change_password($id)
+    public function changePassword($id)
     {
         $user = User::findOrFail($id);
 
@@ -165,7 +165,7 @@ class UserController extends Controller
      * @return bool|\Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update_password(UpdatePasswordRequest $request)
+    public function updatePassword(UpdatePasswordRequest $request)
     {
         $user = auth()->user();
 

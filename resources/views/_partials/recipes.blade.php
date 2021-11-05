@@ -1,46 +1,47 @@
-<div class="row mt-3">
+<section class="recipes-list">
+    <div class="row mt-3 justify-content-center">
+        @forelse($recipes as $recipe)
+            <div class="{{$loop->iteration < 3 ? 'col-md-5 col-sm-5' : 'col-lg-4 col-md-6 col-sm-6'}}">
+                <div class="recipe-item mb-4">
+                    <a href="{{route('recipes.show', $recipe)}}">
+                        <div class="zoom-in recipe-frame">
+                            @if( $recipe->image )
+                                <img src="{{asset('images/recipes')}}/{{$recipe->image}}" width="350" alt="{{$recipe->title}}">
+                            @else
+                                <img src="{{asset('no-image')}}/food.png" alt="{{$recipe->title}}" width="350">
+                            @endif
+                        </div>
+                    </a>
 
-    @forelse($recipes as $recipe)
-        <div class="col-lg-4 col-md-6">
-            <div class="card mb-4">
-                @if( $recipe->image )
-                    <img src="{{asset('images/recipes')}}/{{$recipe->image}}" class="card-img-top" alt="{{$recipe->title}}">
-                @else
-                    <img src="{{asset('no-image')}}/food.jpg" class="card-img-top" alt="{{$recipe->title}}">
-                @endif
-                <div class="card-body">
-                    <div class="header d-flex justify-content-between">
-                        <h5 class="card-title">{{$recipe->title}}</h5>
-                        <a href="{{route('categories.show', $recipe->category->slug)}}">
-                            <span class="badge badge-success">{{$recipe->category->name}}</span>
+                    <div class="recipe-info">
+                        <h6 class="mt-3">
+                            <a href="{{route('categories.show', $recipe->category->slug)}}" class="text-green recipe-title">{{$recipe->category->name}}</a>
+                        </h6>
+                        <h4 >
+                            <a href="{{route('recipes.show', $recipe)}}" class="text-dark">{{$recipe->title}}</a>
+                        </h4>
+                        <small class="mb-2">
+                            <i class="far fa-clock"></i> {{$recipe->duration}} min
+                        </small>
+
+                        <a class="text-secondary" href="{{route('recipes.show', $recipe)}}#scroll-to-comments">
+                            <i class="fas fa-comment"></i> {{$recipe->comments->count()}}
                         </a>
                     </div>
 
-                    <p class="d-flex justify-content-between align-items-center mt-4">
-                        @if(! request()->has('view_deleted'))
-                            <a href="{{route('recipes.show', $recipe)}}" class="btn btn-outline-info btn-sm">Read
-                                more</a>
-
-                            <a class="text-dark" href="{{route('recipes.show', $recipe)}}#comments">
-                                <i class="fas fa-comment"></i> {{$recipe->comments->count()}}
-                            </a>
-                        @endif
-
-
-
-
-                    </p>
-                    @if(request()->has('view_deleted'))
-                        <a class="btn btn-sm btn-primary" href="{{route('recipes.restore', $recipe)
-                        }}">Restore</a>
-                    @endif
                 </div>
             </div>
-        </div>
+        @empty
+            <div class="alert alert-warning" role="alert">
+                No recipes!
+            </div>
+        @endforelse
 
-    @empty
-        <p>
-            No recipes!
-        </p>
-    @endforelse
-</div>
+    </div>
+        <span class="d-flex justify-content-center mt-3">
+            <a class="btn btn-outline-success btn-lg" href="{{route('recipes.all')}}">See all</a>
+        </span>
+</section>
+
+
+

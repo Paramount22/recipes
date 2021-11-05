@@ -1,5 +1,13 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentLikeController;
+use App\Http\Controllers\CommentUnlikeController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\QueryController;
+use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,36 +21,60 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes(['verify' => true]);
+Auth::routes();
 // Search
-Route::get('queries', 'QueryController@search')->name('search'); //search
+Route::get('queries', [QueryController::class, 'search'])->name('search');
 
-Route::get('/', 'RecipeController@index');
+Route::get('/', [RecipeController::class, 'index']);
 
 /*Users*/
-Route::get('users/{user}/comments', 'UserController@showUserComments')->name('show.user.comments');
-Route::get('users/{user}/change-password', 'UserController@change_password')->name('change.password');
-Route::post('users/{user}/update-password', 'UserController@update_password')->name('update.password');
-Route::resource('users', 'UserController');
+Route::get('users/{user}/comments', [UserController::class, 'showUserComments'])
+    ->name('show.user.comments');
 
-/*Recipes*/
-Route::get('recipes/restore/one/{recipe}', 'RecipeController@restore')->name('recipes.restore');
-Route::get('recipes/restore_all', 'RecipeController@restore_all')->name('recipes.restore_all');
-Route::resource('recipes', 'RecipeController');
+Route::get('users/{user}/change-password', [UserController::class, 'changePassword'])
+    ->name('change.password');
+
+Route::post('users/{user}/update-password', [UserController::class, 'updatePassword'])
+    ->name('update.password');
+
+Route::resource('users', UserController::class);
+
+
 
 /*Admin*/
-Route::prefix('admin')->group(function () {
-    Route::resource('categories', 'CategoryController')->except('show');
+Route::prefix('adminsystem')->middleware(['auth', 'is_admin'])->group(function () {
+    Route::resource('categories', CategoryController::class)->except('show');
+    /* SoftDeletes Recipes */
+    Route::get('recipes-soft-deletes', [RecipeController::class, 'getRecipes'])->name('recipes.softDeletes');
+    Route::get('recipes/restore/one/{recipe}', [RecipeController::class, 'restore'])
+        ->name('recipes.restore');
+    Route::get('recipes/restore_all', [RecipeController::class, 'restoreAll'])
+        ->name('recipes.restore_all');
+    Route::delete('recipes/{id}/delete', [RecipeController::class, 'delete'])->name('recipes.delete');
+    Route::post('recipes/{id}/force_delete', [RecipeController::class, 'forceDelete'])->name('recipes.force_delete');
+
 });
+/*Recipes*/
+Route::get('all-recipes', [RecipeController::class, 'getAllRecipes'])->name('recipes.all');
+Route::resource('recipes', RecipeController::class);
 
 /*Categories*/
-Route::resource('categories', 'CategoryController')->only('show');
+Route::resource('categories', CategoryController::class)->only('show');
 
 /*Comments*/
-Route::resource('comments', 'CommentController');
-Route::post('comment/{comment}/likes', 'CommentLikeController@store')->name('comments.likes');
-Route::post('comment/{comment}/unlikes', 'CommentUnlikeController@store')->name('comments.unlikes');
+Route::post('comment/{comment}/likes', [CommentLikeController::class, 'store'])->name('comments.likes');
+Route::post('comment/{comment}/unlikes', [CommentUnlikeController::class, 'store'])
+->name('comments.unlikes');
+Route::resource('comments', CommentController::class);
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+/*Admin panel*/
+//Route::view('/admin', 'layouts.admin');
+//Route::get('/admin/{any?}', function () {
+//   return view('layouts.admin');
+//})->where('any', '.*')->middleware('auth', 'is_admin')->name('admin');
+
 

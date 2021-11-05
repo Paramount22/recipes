@@ -89,6 +89,10 @@
                         @endcan
                     </div>
                     <div class="card-body">
+                        <p class="card-text text-dark">
+                            Recipe:  <a class="text-dark" href="{{route('recipes.show', $comment->recipe->slug)
+                            }}">{{$comment->recipe->title}}</a>
+                        </p>
                         <p class="card-text">{!! nl2br($comment->text) !!}</p>
                     </div>
                     <div class="card-body">

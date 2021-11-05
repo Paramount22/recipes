@@ -1,8 +1,15 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
 @import 'variables';
+@import 'header';
+@import 'admin';
+@import 'auth';
+@import 'general';
+@import "search-bar";
+@import "footer";
+@import "recipe-item";
+@import "categories-nav";
+
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
@@ -10,10 +17,67 @@
 .links, .comments-links, .likes-liks {
     a {
         text-decoration: none;
+
     }
+}
+
+.search-value {
+    margin-bottom: 2.5em;
+
+}
+
+.enjoy-food {
+    font-size: 1.5rem;
+    margin: 1.5rem;
+}
+
+.navbar-light .navbar-brand {
+    color: #2d2e33;
+    font-size: 1.5rem;
+}
+
+.calendar {
+    background: #2d2e33;
+    color: lightgrey;
+    font-size: 85%;
+    text-align: right;
+    padding: .4rem;
 }
 
 .likes-count, .unlikes-count {
     position: relative;
     top: 4px;
 }
+
+
+
+.btn-green {
+    color: #fff;
+    background-color: #26ba13;
+    border-color: #26ba13;
+
+   &:hover {
+       color: #fff;
+       background-color: darken(#26ba13, 10%);
+       border-color: darken(#26ba13, 10%);
+   }
+}
+
+.dropdown-menu {
+    font-size: 1rem;
+}
+
+
+footer {
+    height: 10vh;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #2d2e33;
+
+}
+
+
+
+

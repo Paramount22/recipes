@@ -26,7 +26,7 @@ class Category extends Model
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = ucfirst($value);
-        $this->attributes['slug'] = Str::of($value)->slug('-');
+
     }
 
     /**
@@ -35,5 +35,14 @@ class Category extends Model
     public function recipes()
     {
         return $this->hasMany(Recipe::class);
+    }
+
+
+    // generate slug
+    protected static function boot() {
+        parent::boot();
+        static::creating(function ($category) {
+            $category->slug = Str::of($category->name)->slug('-');
+        });
     }
 }

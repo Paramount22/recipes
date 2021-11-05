@@ -22,9 +22,9 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            'text' => $this->faker->words(20, true),
-            'recipe_id' => 22,
-            'user_id' => 1
+            'text' => $this->faker->words(30, true),
+            'recipe_id' => $this->faker->numberBetween(1,30),
+            'user_id' => $this->faker->numberBetween(1,10)
         ];
     }
 }

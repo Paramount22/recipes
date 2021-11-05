@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{asset('logo')}}/logo.png" width="80" alt="">
+            <i class="fas fa-utensils"></i> Recipes
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
@@ -10,30 +10,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                    @can('has_access')
-                        <a class="nav-link" href="{{ route('categories.index') }}">
-                            {{ __('Categories') }}
-                        </a>
-                    @endcan
+
             </ul>
 
-            <form action="{{route('search')}}" method="POST" class="d-sm-inline-block form-inline  navbar-search">
-                @csrf
-                @method('GET')
-                <div class="input-group">
-                    <input type="text" name="search" class="form-control bg-light border-0 small"
-                           placeholder="Search for recipes"
-                       aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-info" type="submit">
-                            <i class="fas fa-search fa-sm"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
+
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
+
+                @auth
+                    <li class="nav-item mr-4">
+                        <a class="nav-link" href="{{ route('recipes.create') }}">
+                            <i class="fas fa-plus-square"></i>   {{ __('New recipe') }}</a>
+                    </li>
+                @endauth
                 <!-- Authentication Links -->
                 @guest
                     @if (Route::has('login'))
@@ -54,14 +44,24 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            @can('has_access')
+{{--                                <a class="dropdown-item" href="{{ route('admin') }}"--}}
+{{--                                >--}}
+{{--                                    <i class="fas fa-user-shield"></i>   {{ __('Admin panel') }}--}}
+{{--                                </a>--}}
+
+                                <a class="dropdown-item" href="{{ route('categories.index') }}">
+                                    {{ __('Categories') }}
+                                </a>
+
+                                <a class="dropdown-item" href="{{ route('recipes.softDeletes') }}">
+                                    {{ __('Recipes') }}
+                                </a>
+                            @endcan
+
                             <a class="dropdown-item" href="{{ route('users.edit', auth()->id()) }}"
                             >
-                                <i class="fas fa-user mr-1"></i>   {{ __('My profile') }}
-                            </a>
-
-                            <a class="dropdown-item" href="{{ route('change.password', auth()->id()) }}"
-                            >
-                                <i class="fas fa-unlock-alt mr-1"></i>  {{ __('Change password') }}
+                                <i class="fas fa-user mr-1"></i>   {{ __('Edit profile') }}
                             </a>
 
                             <a class="dropdown-item" href="{{ route('logout') }}"
